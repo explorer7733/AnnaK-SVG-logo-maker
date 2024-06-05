@@ -25,3 +25,37 @@ class Svg {
         this.shapeElement = shape.render();
     }
 }
+
+//Create an array of questions for user input
+const questions = [
+    {
+        type: 'input',
+        name: 'text',
+        message: 'Enter text for the logo (up to three characters):',
+    },
+    {
+        type: 'input',
+        name: 'text-color',
+        message: 'Enter text color (color keyword or hex code):',
+    },
+    {
+        type: 'list',
+        name: 'pixel-image',
+        message: 'Select a shape for the logo:',
+        choices: ['Triangle', 'Circle', 'Square'],
+    },
+    {
+        type: 'input',
+        name: 'shape-color',
+        message: 'Enter shape color (color keyword or hex code):',
+    },
+];
+
+//Create a function to write the SVG file
+function writeToFile(fileName, data) {
+    fs.writeFile(fileName, data, (err) => {
+        if (err) throw err;
+        console.log('Generated logo.svg successfully!');
+    });
+}
+            
