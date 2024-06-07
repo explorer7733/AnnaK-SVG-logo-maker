@@ -16,7 +16,7 @@ class Svg {
         this.shapeElement = '';
     }
     render() {
-        return `<svg version="1.1" width="300" height="200" xmlns="http://www.w3.org/2000/svg">${this.textElement}${this.shapeElement}</svg>`;
+        return `<svg version="1.1" width="300" height="200" xmlns="http://www.w3.org/2000/svg">`;
     }
     setTextElement(text, color) {
         this.textElement = `<text x="150" y="125" font-size="60" text-anchor="middle" fill="${color}">${text}</text>`;
@@ -53,9 +53,48 @@ const questions = [
 
 //Create a function to write the SVG file
 function writeToFile(fileName, data) {
-    fs.writeFile(fileName, data, (err) => {
+    const examples = './examples';
+    const svg = new Svg();
+    svg.setTextElement(data.text, data.textColor);
+    
+    switch (data.shape) {
+        case 'Triangle':
+            const triangle = new Triangle();
+            triangle.setColor(data.shapeColor);
+            svg.setShapeElement(triangle);
+            break;
+        case 'Circle':
+            const circle = new Circle();
+            circle.setColor(data.shapeColor);
+            svg.setShapeElement(circle);
+            break;
+        case 'Square':
+            const square = new Square();
+            square.setColor(data.shapeColor);
+            svg.setShapeElement(square);
+            break;
+        default:
+            break;
+    }
+
+    const svgContent = `<svg ${svg.render()}${svg.textElement}${svg.shapeElement}</svg>`;
+
+    fs.writeFile(examples + fileName, svgContent, (err) => {
         if (err) throw err;
-        console.log('Generated logo.svg successfully!');
-    });
+        console.log('Logo.svg generated successfully!');
+    })
 }
+
+//Create a function to initialize app
+function init() {
+    inquirer.prompt(questions).then((answers) => {
+        writeToFile('Logo.svg', answers);
+    });
+};
+
+//Initialize the app
+init();
+
+
+
             
