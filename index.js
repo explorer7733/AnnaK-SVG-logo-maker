@@ -7,7 +7,7 @@ const inquirer = require('inquirer');
 const fs = require('fs'); 
 
 //Import the required code from shape.js file
-const { Triangle, Circle, Square } = require('./lib/shape.js');
+const { Triangle, Circle, Square } = require('./lib/shapes.js');
 
 //Create a class with a constructor for renderring the text and shape elements in the Svg string
 class Svg {
