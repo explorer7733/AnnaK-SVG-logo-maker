@@ -16,10 +16,10 @@ class Svg {
         this.shapeElement = '';
     }
     render() {
-        return `<svg version="1.1" width="300" height="200" xmlns="http://www.w3.org/2000/svg">`;
+        return `<svg version="1.1" width="300" height="200" xmlns="http://www.w3.org/2000/svg">${this.shapeElement}${this.textElement}</svg>`;
     }
     setTextElement(text, color) {
-        this.textElement = `<text x="150" y="125" font-size="60" text-anchor="middle" fill="${color}">${text}</text>`;
+        this.textElement = `<text x="150" y="125" font-size="45" text-anchor="middle" fill="${color}">${text}</text>`;
     }
     setShapeElement(shape) {
         this.shapeElement = shape.render();
@@ -35,31 +35,32 @@ const questions = [
     },
     {
         type: 'input',
-        name: 'text-color',
+        name: 'textColor',
         message: 'Enter text color (color keyword or hex code):',
     },
     {
         type: 'list',
-        name: 'pixel-image',
+        name: 'pixelImage',
         message: 'Select a shape for the logo:',
         choices: ['Triangle', 'Circle', 'Square'],
     },
     {
         type: 'input',
-        name: 'shape-color',
+        name: 'shapeColor',
         message: 'Enter shape color (color keyword or hex code):',
     },
 ];
 
 //Create a function to write the SVG file
 function writeToFile(fileName, data) {
-    const examples = './examples';
+    const examples = '/examples/';
     const svg = new Svg();
     svg.setTextElement(data.text, data.textColor);
     
-    switch (data.shape) {
+    switch (data.pixelImage) {
         case 'Triangle':
             const triangle = new Triangle();
+            console.log(data.shapeColor);
             triangle.setColor(data.shapeColor);
             svg.setShapeElement(triangle);
             break;
@@ -77,9 +78,9 @@ function writeToFile(fileName, data) {
             break;
     }
 
-    const svgContent = `<svg ${svg.render()}${svg.textElement}${svg.shapeElement}</svg>`;
+    const svgContent = `${svg.render()}`;
 
-    fs.writeFile(examples + fileName, svgContent, (err) => {
+    fs.writeFile(__dirname + examples + fileName, svgContent, (err) => {
         if (err) throw err;
         console.log('Logo.svg generated successfully!');
     })
